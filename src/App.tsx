@@ -164,11 +164,11 @@ function ResilientImage({ src, alt, className = '', fallbackLabel }: ResilientIm
   if (hasError) {
     return (
       <div
-        className={`flex flex-col items-center justify-center bg-slate-900 text-slate-200 p-6 text-center ${className}`}
+        className={`flex flex-col items-center justify-center bg-neutral-950 text-neutral-200 p-6 text-center ${className}`}
         role="img"
         aria-label={alt}
       >
-        <FileText className="w-8 h-8 text-slate-400 mb-2" />
+        <FileText className="w-8 h-8 text-neutral-400 mb-2" />
         <span className="text-sm font-medium">{fallbackLabel}</span>
       </div>
     );
@@ -314,18 +314,18 @@ export default function App() {
     const trimmedEmail = candidateEmail.trim();
 
     if (!trimmedName) {
-      errors.name = 'Candidate name is required (maps to n8n field-0).';
+      errors.name = 'Required: Candidate name is required (maps to n8n field-0).';
     }
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!trimmedEmail) {
-      errors.email = 'Email address is required (maps to n8n field-1).';
+      errors.email = 'Required: Email address is required (maps to n8n field-1).';
     } else if (!emailRegex.test(trimmedEmail)) {
-      errors.email = 'Please enter a valid work or personal email address.';
+      errors.email = 'Invalid format: Please enter a valid work or personal email address.';
     }
 
     if (resumeFiles.length === 0) {
-      errors.files = 'Please attach at least one resume file (maps to n8n field-2).';
+      errors.files = 'Required: Please attach at least one resume file (maps to n8n field-2).';
     }
 
     setFieldErrors(errors);
@@ -358,7 +358,7 @@ export default function App() {
     setSubmissions((prev) => [newRecord, ...prev]);
     setSubmitResult({
       status: 'success',
-      title: 'Document Readiness Verified',
+      title: 'Verified: Document Readiness Confirmed',
       detail: 'Your resume packet passed pre-flight checks and was logged to the session ledger. Click "Submit to n8n Workflow" when ready to transmit.',
     });
   };
@@ -374,7 +374,6 @@ export default function App() {
     setReadinessReport(report);
 
     try {
-      // Build exact FormData payload expected by https://hasinisaranya07.app.n8n.cloud/form/808f0b35-1062-4dbc-85be-fe25e8f99e15
       const formData = new FormData();
       formData.append('field-0', candidateName.trim());
       formData.append('field-1', candidateEmail.trim());
@@ -410,7 +409,7 @@ export default function App() {
         setSubmissions((prev) => [newRecord, ...prev]);
         setSubmitResult({
           status: 'success',
-          title: 'Form Submitted to n8n Cloud',
+          title: 'Success: Form Submitted to n8n Cloud',
           detail:
             result.message ||
             'Your response has been recorded by the Resume Analyser workflow at hasinisaranya07.app.n8n.cloud.',
@@ -419,7 +418,7 @@ export default function App() {
       } else {
         setSubmitResult({
           status: 'error',
-          title: 'n8n Workflow Response Notice',
+          title: 'Notice: n8n Workflow Response',
           detail:
             result.message ||
             'The n8n endpoint returned a non-200 response. You can also switch to the "Embedded n8n Form" tab to submit directly inside the hosted n8n frame.',
@@ -429,7 +428,7 @@ export default function App() {
     } catch (error) {
       setSubmitResult({
         status: 'error',
-        title: 'Network Transmission Error',
+        title: 'Error: Network Transmission Failed',
         detail:
           error instanceof Error
             ? error.message
@@ -507,40 +506,40 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-[#0F172A]">
-      {/* Strict 3-Zone Top Bar Contract */}
-      <header className="sticky top-0 z-30 bg-[#F8FAFC]/95 backdrop-blur-sm border-b border-slate-200 px-6 lg:px-12 py-4 flex items-center justify-between">
+    <div className="min-h-screen flex flex-col bg-[#F5F5F5] text-[#0A0A0A]">
+      {/* Strict 3-Zone Top Bar Contract — Monochromatic Black, White & Grey */}
+      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-sm border-b border-neutral-300 px-6 lg:px-12 py-4 flex items-center justify-between">
         {/* Zone 1: Single text element wordmark */}
         <a
           href="#"
-          className="font-display text-lg font-semibold tracking-tight text-slate-900 whitespace-nowrap"
+          className="font-display text-lg font-semibold tracking-tight text-neutral-950 whitespace-nowrap"
         >
           Resume Analyser
         </a>
 
         {/* Zone 2: 4 clean navigation links with subtle hover underlines */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-neutral-600">
           <a
             href="#submission"
-            className="hover:text-slate-900 hover:underline underline-offset-4 transition-colors whitespace-nowrap"
+            className="hover:text-neutral-950 hover:underline underline-offset-4 transition-colors whitespace-nowrap"
           >
             Submit Resume
           </a>
           <a
             href="#capabilities"
-            className="hover:text-slate-900 hover:underline underline-offset-4 transition-colors whitespace-nowrap"
+            className="hover:text-neutral-950 hover:underline underline-offset-4 transition-colors whitespace-nowrap"
           >
             Workflow Architecture
           </a>
           <a
             href="#evidence"
-            className="hover:text-slate-900 hover:underline underline-offset-4 transition-colors whitespace-nowrap"
+            className="hover:text-neutral-950 hover:underline underline-offset-4 transition-colors whitespace-nowrap"
           >
-            Impact & Proof
+            Impact &amp; Proof
           </a>
           <a
             href="#ledger"
-            className="hover:text-slate-900 hover:underline underline-offset-4 transition-colors whitespace-nowrap"
+            className="hover:text-neutral-950 hover:underline underline-offset-4 transition-colors whitespace-nowrap"
           >
             Submission Ledger
           </a>
@@ -551,7 +550,7 @@ export default function App() {
           <button
             type="button"
             onClick={scrollToSubmission}
-            className="px-4 py-2 text-xs font-semibold text-white bg-[#1E40AF] rounded-lg hover:bg-[#1E3A8A] transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1E40AF]"
+            className="px-4 py-2 text-xs font-semibold text-white bg-neutral-950 rounded-lg hover:bg-neutral-800 transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-950"
           >
             Upload Candidate Packet
           </button>
@@ -564,7 +563,7 @@ export default function App() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             <div className="lg:col-span-7 space-y-6">
               {/* Unboxed clean metadata with typographic separators (Zero-Pill Discipline) */}
-              <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500">
+              <div className="flex flex-wrap items-center gap-2 text-xs text-neutral-600">
                 <span>n8n Cloud Form Trigger</span>
                 <span aria-hidden="true">·</span>
                 <span className="font-mono-tabular">ID 808f0b35-1062-4dbc-85be-fe25e8f99e15</span>
@@ -579,15 +578,15 @@ export default function App() {
               </div>
 
               <h1
-                className="font-display text-3xl sm:text-4xl lg:text-[44px] font-semibold text-slate-900 tracking-tight leading-[1.12]"
+                className="font-display text-3xl sm:text-4xl lg:text-[44px] font-semibold text-neutral-950 tracking-tight leading-[1.12]"
                 style={{ textWrap: 'balance' }}
               >
                 Automated Resume Ingestion and Candidate Qualification Pipeline.
               </h1>
 
-              <p className="text-base text-slate-600 leading-relaxed max-w-[65ch]">
+              <p className="text-base text-neutral-700 leading-relaxed max-w-[65ch]">
                 Submit candidate credentials and resume files directly to the live{' '}
-                <span className="font-semibold text-slate-800">{endpointMeta.title}</span> workflow
+                <span className="font-semibold text-neutral-950">{endpointMeta.title}</span> workflow
                 hosted on n8n Cloud. Our dual-mode portal provides both a native multipart uploader
                 with pre-flight document diagnostics and the embedded n8n form interface.
               </p>
@@ -596,7 +595,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={scrollToSubmission}
-                  className="px-5 py-2.5 text-sm font-semibold text-white bg-[#1E40AF] rounded-lg hover:bg-[#1E3A8A] transition-colors whitespace-nowrap cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1E40AF]"
+                  className="px-5 py-2.5 text-sm font-semibold text-white bg-neutral-950 rounded-lg hover:bg-neutral-800 transition-colors whitespace-nowrap cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-950"
                 >
                   Start Resume Analysis
                 </button>
@@ -605,39 +604,39 @@ export default function App() {
                   href={N8N_FORM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:text-slate-900 border border-slate-300 rounded-lg bg-white hover:bg-slate-50 transition-colors whitespace-nowrap"
+                  className="inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-neutral-900 hover:text-neutral-950 border border-neutral-400 rounded-lg bg-white hover:bg-neutral-100 transition-colors whitespace-nowrap"
                 >
                   <span>Open Hosted n8n URL</span>
                   <ArrowUpRight className="w-4 h-4" />
                 </a>
               </div>
 
-              <div className="pt-4 border-t border-slate-200 grid grid-cols-3 gap-6">
+              <div className="pt-4 border-t border-neutral-300 grid grid-cols-3 gap-6">
                 <div>
-                  <p className="font-mono-tabular text-xl font-semibold text-slate-900">3 Fields</p>
-                  <p className="text-xs text-slate-500 mt-0.5">Name · Email · Resume File</p>
+                  <p className="font-mono-tabular text-xl font-semibold text-neutral-950">3 Fields</p>
+                  <p className="text-xs text-neutral-600 mt-0.5">Name · Email · Resume File</p>
                 </div>
                 <div>
-                  <p className="font-mono-tabular text-xl font-semibold text-slate-900">&lt; 2.5s</p>
-                  <p className="text-xs text-slate-500 mt-0.5">Multipart Webhook Relay</p>
+                  <p className="font-mono-tabular text-xl font-semibold text-neutral-950">&lt; 2.5s</p>
+                  <p className="text-xs text-neutral-600 mt-0.5">Multipart Webhook Relay</p>
                 </div>
                 <div>
-                  <p className="font-mono-tabular text-xl font-semibold text-slate-900">PDF / DOCX</p>
-                  <p className="text-xs text-slate-500 mt-0.5">Multi-Document Support</p>
+                  <p className="font-mono-tabular text-xl font-semibold text-neutral-950">PDF / DOCX</p>
+                  <p className="text-xs text-neutral-600 mt-0.5">Multi-Document Support</p>
                 </div>
               </div>
             </div>
 
             <div className="lg:col-span-5">
-              <div className="relative rounded-xl overflow-hidden border border-slate-200 bg-slate-900 aspect-16/10 lg:aspect-16/11">
+              <div className="relative rounded-xl overflow-hidden border border-neutral-300 bg-neutral-950 aspect-16/10 lg:aspect-16/11">
                 <ResilientImage
                   src={heroEditorialImg}
                   alt="Modern executive recruitment and resume analysis workspace"
                   fallbackLabel="Resume Analyser Studio"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent flex flex-col justify-end p-6">
-                  <p className="text-xs text-slate-300">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent flex flex-col justify-end p-6">
+                  <p className="text-xs text-neutral-300">
                     hasinisaranya07.app.n8n.cloud · Production Form Endpoint
                   </p>
                   <p className="text-sm font-semibold text-white mt-1">
@@ -653,25 +652,25 @@ export default function App() {
         <section
           id="submission"
           ref={submissionSectionRef}
-          className="border-y border-slate-200 bg-white py-16"
+          className="border-y border-neutral-300 bg-white py-16"
         >
           <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-slate-200">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-neutral-200">
               <div>
-                <div className="flex items-center gap-2 text-xs text-slate-500 mb-2">
+                <div className="flex items-center gap-2 text-xs text-neutral-500 mb-2">
                   <span>Interactive Intake Workspace</span>
                   <span aria-hidden="true">·</span>
                   <span>Live n8n Form Integration</span>
                 </div>
-                <h2 className="font-display text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight">
+                <h2 className="font-display text-2xl sm:text-3xl font-semibold text-neutral-950 tracking-tight">
                   Resume Analyser Submission Portal
                 </h2>
               </div>
 
-              {/* Interactive Segmented Control (Functional Buttons Allowed by Constitution) */}
+              {/* Interactive Segmented Control */}
               <div className="flex flex-wrap items-center gap-3">
                 <div
-                  className="inline-flex items-center gap-1 p-1 bg-slate-100 rounded-lg border border-slate-200"
+                  className="inline-flex items-center gap-1 p-1 bg-neutral-100 rounded-lg border border-neutral-300"
                   role="tablist"
                   aria-label="Integration Mode"
                 >
@@ -682,8 +681,8 @@ export default function App() {
                     onClick={() => setWorkspaceMode('native')}
                     className={`px-3.5 py-1.5 text-xs font-semibold rounded-md transition-colors whitespace-nowrap cursor-pointer ${
                       workspaceMode === 'native'
-                        ? 'bg-white text-slate-900 shadow-xs'
-                        : 'text-slate-600 hover:text-slate-900'
+                        ? 'bg-neutral-950 text-white'
+                        : 'text-neutral-600 hover:text-neutral-950'
                     }`}
                   >
                     Native Intake Form
@@ -695,8 +694,8 @@ export default function App() {
                     onClick={() => setWorkspaceMode('embed')}
                     className={`px-3.5 py-1.5 text-xs font-semibold rounded-md transition-colors whitespace-nowrap cursor-pointer ${
                       workspaceMode === 'embed'
-                        ? 'bg-white text-slate-900 shadow-xs'
-                        : 'text-slate-600 hover:text-slate-900'
+                        ? 'bg-neutral-950 text-white'
+                        : 'text-neutral-600 hover:text-neutral-950'
                     }`}
                   >
                     Embedded n8n Form
@@ -706,17 +705,17 @@ export default function App() {
                 <button
                   type="button"
                   onClick={handleCopyUrl}
-                  className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors whitespace-nowrap cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-neutral-800 bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 rounded-lg transition-colors whitespace-nowrap cursor-pointer"
                   title="Copy n8n Form URL"
                 >
                   {copiedUrl ? (
                     <>
-                      <Check className="w-3.5 h-3.5 text-emerald-700" />
+                      <Check className="w-3.5 h-3.5 text-neutral-950" />
                       <span>Copied URL</span>
                     </>
                   ) : (
                     <>
-                      <Copy className="w-3.5 h-3.5 text-slate-500" />
+                      <Copy className="w-3.5 h-3.5 text-neutral-600" />
                       <span>Copy Form URL</span>
                     </>
                   )}
@@ -730,15 +729,15 @@ export default function App() {
                 <div className="lg:col-span-7">
                   <form onSubmit={handleSubmitToN8n} noValidate className="space-y-6">
                     <div className="flex items-center justify-between">
-                      <p className="text-sm text-slate-600">
+                      <p className="text-sm text-neutral-600">
                         All required fields map directly to the{' '}
-                        <span className="font-mono-tabular text-xs text-slate-800">n8n-form</span>{' '}
+                        <span className="font-mono-tabular text-xs text-neutral-900">n8n-form</span>{' '}
                         schema (`field-0`, `field-1`, `field-2`).
                       </p>
                       <button
                         type="button"
                         onClick={handleLoadSampleCandidate}
-                        className="text-xs font-semibold text-[#1E40AF] hover:underline whitespace-nowrap cursor-pointer"
+                        className="text-xs font-semibold text-neutral-950 underline underline-offset-4 hover:text-neutral-600 whitespace-nowrap cursor-pointer"
                       >
                         Fill Sample Candidate
                       </button>
@@ -749,11 +748,11 @@ export default function App() {
                       <div className="flex items-center justify-between mb-1.5">
                         <label
                           htmlFor="field-0"
-                          className="block text-sm font-semibold text-slate-900"
+                          className="block text-sm font-semibold text-neutral-950"
                         >
-                          Name <span className="text-red-600">*</span>
+                          Name <span className="text-neutral-950">*</span>
                         </label>
-                        <span className="font-mono-tabular text-xs text-slate-400">
+                        <span className="font-mono-tabular text-xs text-neutral-500">
                           name=&quot;field-0&quot;
                         </span>
                       </div>
@@ -770,15 +769,15 @@ export default function App() {
                           }
                         }}
                         placeholder="e.g., Hasini Saranya"
-                        className={`w-full px-3.5 py-2.5 text-sm text-slate-900 bg-white rounded-lg border transition-colors focus:outline-none ${
+                        className={`w-full px-3.5 py-2.5 text-sm text-neutral-950 bg-white rounded-lg border transition-colors focus:outline-none ${
                           fieldErrors.name
-                            ? 'border-red-600 focus:border-red-600'
-                            : 'border-slate-300 focus:border-[#1E40AF]'
+                            ? 'border-neutral-950 bg-neutral-100'
+                            : 'border-neutral-300 focus:border-neutral-950'
                         }`}
                       />
                       {fieldErrors.name && (
-                        <p className="mt-1.5 text-xs text-red-600 flex items-center gap-1.5">
-                          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                        <p className="mt-1.5 text-xs font-medium text-neutral-900 flex items-center gap-1.5">
+                          <AlertCircle className="w-3.5 h-3.5 shrink-0 text-neutral-950" />
                           <span>{fieldErrors.name}</span>
                         </p>
                       )}
@@ -789,11 +788,11 @@ export default function App() {
                       <div className="flex items-center justify-between mb-1.5">
                         <label
                           htmlFor="field-1"
-                          className="block text-sm font-semibold text-slate-900"
+                          className="block text-sm font-semibold text-neutral-950"
                         >
-                          Email <span className="text-red-600">*</span>
+                          Email <span className="text-neutral-950">*</span>
                         </label>
-                        <span className="font-mono-tabular text-xs text-slate-400">
+                        <span className="font-mono-tabular text-xs text-neutral-500">
                           name=&quot;field-1&quot;
                         </span>
                       </div>
@@ -810,15 +809,15 @@ export default function App() {
                           }
                         }}
                         placeholder="e.g., hasinisathagopam@gmail.com"
-                        className={`w-full px-3.5 py-2.5 text-sm text-slate-900 bg-white rounded-lg border transition-colors focus:outline-none ${
+                        className={`w-full px-3.5 py-2.5 text-sm text-neutral-950 bg-white rounded-lg border transition-colors focus:outline-none ${
                           fieldErrors.email
-                            ? 'border-red-600 focus:border-red-600'
-                            : 'border-slate-300 focus:border-[#1E40AF]'
+                            ? 'border-neutral-950 bg-neutral-100'
+                            : 'border-neutral-300 focus:border-neutral-950'
                         }`}
                       />
                       {fieldErrors.email && (
-                        <p className="mt-1.5 text-xs text-red-600 flex items-center gap-1.5">
-                          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                        <p className="mt-1.5 text-xs font-medium text-neutral-900 flex items-center gap-1.5">
+                          <AlertCircle className="w-3.5 h-3.5 shrink-0 text-neutral-950" />
                           <span>{fieldErrors.email}</span>
                         </p>
                       )}
@@ -829,11 +828,11 @@ export default function App() {
                       <div className="flex items-center justify-between mb-1.5">
                         <label
                           htmlFor="target-track"
-                          className="block text-sm font-semibold text-slate-900"
+                          className="block text-sm font-semibold text-neutral-950"
                         >
                           Target Role Benchmark
                         </label>
-                        <span className="text-xs text-slate-500">Pre-check calibration</span>
+                        <span className="text-xs text-neutral-500">Pre-check calibration</span>
                       </div>
                       <select
                         id="target-track"
@@ -852,7 +851,7 @@ export default function App() {
                             );
                           }
                         }}
-                        className="w-full px-3.5 py-2.5 text-sm text-slate-900 bg-white rounded-lg border border-slate-300 focus:border-[#1E40AF] focus:outline-none"
+                        className="w-full px-3.5 py-2.5 text-sm text-neutral-950 bg-white rounded-lg border border-neutral-300 focus:border-neutral-950 focus:outline-none"
                       >
                         <option value="Distributed Systems & Backend Engineering">
                           Distributed Systems &amp; Backend Engineering
@@ -877,11 +876,11 @@ export default function App() {
                       <div className="flex items-center justify-between mb-1.5">
                         <label
                           htmlFor="field-2"
-                          className="block text-sm font-semibold text-slate-900"
+                          className="block text-sm font-semibold text-neutral-950"
                         >
-                          Upload Resume <span className="text-red-600">*</span>
+                          Upload Resume <span className="text-neutral-950">*</span>
                         </label>
-                        <span className="font-mono-tabular text-xs text-slate-400">
+                        <span className="font-mono-tabular text-xs text-neutral-500">
                           name=&quot;field-2&quot; · multiple
                         </span>
                       </div>
@@ -892,8 +891,8 @@ export default function App() {
                         onClick={() => fileInputRef.current?.click()}
                         className={`border border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
                           fieldErrors.files
-                            ? 'border-red-500 bg-red-50/40'
-                            : 'border-slate-300 hover:border-[#1E40AF] bg-slate-50/70'
+                            ? 'border-neutral-950 bg-neutral-100'
+                            : 'border-neutral-400 hover:border-neutral-950 bg-neutral-50'
                         }`}
                       >
                         <input
@@ -905,39 +904,39 @@ export default function App() {
                           onChange={handleFileChange}
                           className="hidden"
                         />
-                        <Upload className="w-6 h-6 text-slate-500 mx-auto mb-2" />
-                        <p className="text-sm font-semibold text-slate-900">
+                        <Upload className="w-6 h-6 text-neutral-600 mx-auto mb-2" />
+                        <p className="text-sm font-semibold text-neutral-950">
                           Click to select resume files or drag and drop here
                         </p>
-                        <p className="text-xs text-slate-500 mt-1">
+                        <p className="text-xs text-neutral-600 mt-1">
                           Supports PDF, DOCX, DOC, or TXT · Multiple files supported by n8n field-2
                         </p>
                       </div>
 
                       {fieldErrors.files && (
-                        <p className="mt-1.5 text-xs text-red-600 flex items-center gap-1.5">
-                          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                        <p className="mt-1.5 text-xs font-medium text-neutral-900 flex items-center gap-1.5">
+                          <AlertCircle className="w-3.5 h-3.5 shrink-0 text-neutral-950" />
                           <span>{fieldErrors.files}</span>
                         </p>
                       )}
 
                       {/* Attached File List */}
                       {resumeFiles.length > 0 && (
-                        <div className="mt-3 divide-y divide-slate-200 border border-slate-200 rounded-lg bg-white">
+                        <div className="mt-3 divide-y divide-neutral-200 border border-neutral-300 rounded-lg bg-white">
                           {resumeFiles.map((file, idx) => (
                             <div
                               key={`${file.name}-${idx}`}
                               className="flex items-center justify-between px-3.5 py-2.5 text-xs"
                             >
                               <div className="flex items-center gap-2.5 min-w-0">
-                                <FileText className="w-4 h-4 text-slate-500 shrink-0" />
-                                <span className="font-medium text-slate-900 truncate">
+                                <FileText className="w-4 h-4 text-neutral-600 shrink-0" />
+                                <span className="font-medium text-neutral-950 truncate">
                                   {file.name}
                                 </span>
-                                <span aria-hidden="true" className="text-slate-300">
+                                <span aria-hidden="true" className="text-neutral-400">
                                   ·
                                 </span>
-                                <span className="font-mono-tabular text-slate-500 shrink-0">
+                                <span className="font-mono-tabular text-neutral-600 shrink-0">
                                   {formatBytes(file.size)}
                                 </span>
                               </div>
@@ -947,7 +946,7 @@ export default function App() {
                                   e.stopPropagation();
                                   handleRemoveFile(idx);
                                 }}
-                                className="p-1 text-slate-400 hover:text-red-600 transition-colors cursor-pointer"
+                                className="p-1 text-neutral-500 hover:text-neutral-950 transition-colors cursor-pointer"
                                 aria-label={`Remove ${file.name}`}
                               >
                                 <Trash2 className="w-3.5 h-3.5" />
@@ -958,21 +957,21 @@ export default function App() {
                       )}
                     </div>
 
-                    {/* Submission Feedback Banner (Accessible, Not Hue-Only) */}
+                    {/* Submission Feedback Banner — Monochromatic with explicit icon + text state */}
                     {submitResult.status !== 'idle' && (
                       <div
                         role="status"
                         className={`p-4 rounded-lg border text-sm ${
                           submitResult.status === 'success'
-                            ? 'bg-emerald-50/70 border-emerald-300 text-emerald-950'
-                            : 'bg-amber-50/80 border-amber-300 text-amber-950'
+                            ? 'bg-neutral-950 border-neutral-950 text-white'
+                            : 'bg-neutral-100 border-neutral-900 text-neutral-950'
                         }`}
                       >
                         <div className="flex items-start gap-3">
                           {submitResult.status === 'success' ? (
-                            <CheckCircle2 className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
+                            <CheckCircle2 className="w-5 h-5 text-white shrink-0 mt-0.5" />
                           ) : (
-                            <AlertCircle className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
+                            <AlertCircle className="w-5 h-5 text-neutral-950 shrink-0 mt-0.5" />
                           )}
                           <div className="space-y-1">
                             <p className="font-semibold">
@@ -996,7 +995,7 @@ export default function App() {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="px-5 py-2.5 text-sm font-semibold text-white bg-[#1E40AF] hover:bg-[#1E3A8A] disabled:opacity-60 rounded-lg transition-colors whitespace-nowrap cursor-pointer inline-flex items-center gap-2"
+                        className="px-5 py-2.5 text-sm font-semibold text-white bg-neutral-950 hover:bg-neutral-800 disabled:opacity-60 rounded-lg transition-colors whitespace-nowrap cursor-pointer inline-flex items-center gap-2"
                       >
                         {isSubmitting ? (
                           <>
@@ -1012,9 +1011,9 @@ export default function App() {
                         type="button"
                         onClick={handleRunPreCheckOnly}
                         disabled={isSubmitting}
-                        className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg transition-colors whitespace-nowrap cursor-pointer inline-flex items-center gap-1.5"
+                        className="px-4 py-2.5 text-sm font-semibold text-neutral-900 hover:text-neutral-950 bg-white hover:bg-neutral-100 border border-neutral-400 rounded-lg transition-colors whitespace-nowrap cursor-pointer inline-flex items-center gap-1.5"
                       >
-                        <SlidersHorizontal className="w-4 h-4 text-slate-500" />
+                        <SlidersHorizontal className="w-4 h-4 text-neutral-600" />
                         <span>Run Pre-Flight Check Only</span>
                       </button>
                     </div>
@@ -1023,20 +1022,20 @@ export default function App() {
 
                 {/* Right Column: Live Schema Inspector & Pre-Flight Document Readiness */}
                 <div className="lg:col-span-5 space-y-6">
-                  <div className="border border-slate-200 rounded-xl p-6 bg-[#F8FAFC] space-y-5">
-                    <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+                  <div className="border border-neutral-300 rounded-xl p-6 bg-[#F5F5F5] space-y-5">
+                    <div className="flex items-center justify-between border-b border-neutral-300 pb-4">
                       <div>
-                        <h3 className="font-display text-base font-semibold text-slate-900">
+                        <h3 className="font-display text-base font-semibold text-neutral-950">
                           n8n Endpoint &amp; Packet Inspector
                         </h3>
-                        <p className="text-xs text-slate-500 mt-0.5">
+                        <p className="text-xs text-neutral-600 mt-0.5">
                           Live connection to hasinisaranya07.app.n8n.cloud
                         </p>
                       </div>
                       <button
                         type="button"
                         onClick={checkEndpointHealth}
-                        className="p-2 text-slate-600 hover:text-slate-900 border border-slate-200 rounded-lg bg-white hover:bg-slate-50 transition-colors cursor-pointer"
+                        className="p-2 text-neutral-700 hover:text-neutral-950 border border-neutral-300 rounded-lg bg-white hover:bg-neutral-100 transition-colors cursor-pointer"
                         title="Refresh n8n endpoint status"
                       >
                         <RefreshCw
@@ -1046,25 +1045,25 @@ export default function App() {
                     </div>
 
                     <div className="space-y-3 text-xs">
-                      <div className="flex items-center justify-between py-1.5 border-b border-slate-200/70">
-                        <span className="text-slate-500">Form Title</span>
-                        <span className="font-semibold text-slate-900">{endpointMeta.title}</span>
+                      <div className="flex items-center justify-between py-1.5 border-b border-neutral-200">
+                        <span className="text-neutral-600">Form Title</span>
+                        <span className="font-semibold text-neutral-950">{endpointMeta.title}</span>
                       </div>
-                      <div className="flex items-center justify-between py-1.5 border-b border-slate-200/70">
-                        <span className="text-slate-500">Webhook Path</span>
-                        <span className="font-mono-tabular text-slate-800">
+                      <div className="flex items-center justify-between py-1.5 border-b border-neutral-200">
+                        <span className="text-neutral-600">Webhook Path</span>
+                        <span className="font-mono-tabular text-neutral-900">
                           /form/808f0b35-1062-4dbc...
                         </span>
                       </div>
-                      <div className="flex items-center justify-between py-1.5 border-b border-slate-200/70">
-                        <span className="text-slate-500">Encoding</span>
-                        <span className="font-mono-tabular text-slate-800">
+                      <div className="flex items-center justify-between py-1.5 border-b border-neutral-200">
+                        <span className="text-neutral-600">Encoding</span>
+                        <span className="font-mono-tabular text-neutral-900">
                           multipart/form-data
                         </span>
                       </div>
                       <div className="flex items-center justify-between py-1.5">
-                        <span className="text-slate-500">Upstream Reachability</span>
-                        <span className="font-semibold text-slate-900">
+                        <span className="text-neutral-600">Upstream Reachability</span>
+                        <span className="font-semibold text-neutral-950">
                           {endpointMeta.reachable
                             ? 'Active (HTTP 200)'
                             : 'Offline / Check Workflow'}
@@ -1073,44 +1072,44 @@ export default function App() {
                     </div>
 
                     {/* Pre-Flight Readiness Report */}
-                    <div className="pt-4 border-t border-slate-200">
-                      <h4 className="text-xs font-semibold text-slate-900 mb-3">
+                    <div className="pt-4 border-t border-neutral-300">
+                      <h4 className="text-xs font-semibold text-neutral-950 mb-3">
                         Candidate Packet Diagnostics
                       </h4>
                       {readinessReport ? (
                         <div className="space-y-3">
                           <div className="grid grid-cols-2 gap-3 text-xs">
-                            <div className="p-3 bg-white rounded-lg border border-slate-200">
-                              <p className="text-slate-500">Format Compatibility</p>
-                              <p className="font-semibold text-slate-900 mt-0.5">
+                            <div className="p-3 bg-white rounded-lg border border-neutral-300">
+                              <p className="text-neutral-600">Format Compatibility</p>
+                              <p className="font-semibold text-neutral-950 mt-0.5">
                                 {readinessReport.formatCheck}
                               </p>
                             </div>
-                            <div className="p-3 bg-white rounded-lg border border-slate-200">
-                              <p className="text-slate-500">Payload Size</p>
-                              <p className="font-mono-tabular font-semibold text-slate-900 mt-0.5">
+                            <div className="p-3 bg-white rounded-lg border border-neutral-300">
+                              <p className="text-neutral-600">Payload Size</p>
+                              <p className="font-mono-tabular font-semibold text-neutral-950 mt-0.5">
                                 {readinessReport.totalSizeFormatted} ({readinessReport.fileCount}{' '}
                                 {readinessReport.fileCount === 1 ? 'file' : 'files'})
                               </p>
                             </div>
                           </div>
 
-                          <ul className="space-y-2 text-xs text-slate-600 pt-1">
+                          <ul className="space-y-2 text-xs text-neutral-700 pt-1">
                             {readinessReport.recommendations.map((rec, i) => (
                               <li key={i} className="flex items-start gap-2">
-                                <span className="text-slate-400 select-none">·</span>
+                                <span className="text-neutral-500 select-none">·</span>
                                 <span>{rec}</span>
                               </li>
                             ))}
                           </ul>
                         </div>
                       ) : (
-                        <p className="text-xs text-slate-500 leading-relaxed">
+                        <p className="text-xs text-neutral-600 leading-relaxed">
                           Attach a resume file or click{' '}
                           <button
                             type="button"
                             onClick={handleLoadSampleCandidate}
-                            className="font-semibold text-[#1E40AF] hover:underline cursor-pointer"
+                            className="font-semibold text-neutral-950 underline underline-offset-4 hover:text-neutral-600 cursor-pointer"
                           >
                             Fill Sample Candidate
                           </button>{' '}
@@ -1125,28 +1124,28 @@ export default function App() {
             ) : (
               /* Embedded n8n Form View */
               <div className="pt-8 space-y-4">
-                <div className="flex flex-wrap items-center justify-between gap-4 bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-xs">
-                  <div className="flex items-center gap-2 text-slate-600 truncate">
-                    <span className="font-semibold text-slate-900">Live n8n Form Embed:</span>
+                <div className="flex flex-wrap items-center justify-between gap-4 bg-neutral-100 border border-neutral-300 rounded-lg px-4 py-3 text-xs">
+                  <div className="flex items-center gap-2 text-neutral-700 truncate">
+                    <span className="font-semibold text-neutral-950">Live n8n Form Embed:</span>
                     <span className="font-mono-tabular truncate">{N8N_FORM_URL}</span>
                   </div>
                   <div className="flex items-center gap-3 shrink-0">
                     <button
                       type="button"
                       onClick={() => setIframeKey((k) => k + 1)}
-                      className="inline-flex items-center gap-1.5 font-semibold text-slate-700 hover:text-slate-900 cursor-pointer"
+                      className="inline-flex items-center gap-1.5 font-semibold text-neutral-800 hover:text-neutral-950 cursor-pointer"
                     >
                       <RefreshCw className="w-3.5 h-3.5" />
                       <span>Reload Frame</span>
                     </button>
-                    <span aria-hidden="true" className="text-slate-300">
+                    <span aria-hidden="true" className="text-neutral-400">
                       ·
                     </span>
                     <a
                       href={N8N_FORM_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 font-semibold text-[#1E40AF] hover:underline"
+                      className="inline-flex items-center gap-1 font-semibold text-neutral-950 underline underline-offset-4 hover:text-neutral-600"
                     >
                       <span>Open in New Tab</span>
                       <ExternalLink className="w-3.5 h-3.5" />
@@ -1154,7 +1153,7 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="border border-slate-200 rounded-xl overflow-hidden bg-[#fbfcfe]">
+                <div className="border border-neutral-300 rounded-xl overflow-hidden bg-white">
                   <iframe
                     key={iframeKey}
                     src={N8N_FORM_URL}
@@ -1170,13 +1169,13 @@ export default function App() {
         {/* 3. Core Capabilities / Workflow Architecture (Bento Grid with Natural Editorial Numbering) */}
         <section id="capabilities" className="max-w-[1200px] mx-auto px-6 lg:px-8 py-16 lg:py-20">
           <div className="max-w-2xl mb-12">
-            <div className="flex items-center gap-2 text-xs text-slate-500 mb-2">
+            <div className="flex items-center gap-2 text-xs text-neutral-600 mb-2">
               <span>Pipeline Architecture</span>
               <span aria-hidden="true">·</span>
               <span>Automated Evaluation Stages</span>
             </div>
             <h2
-              className="font-display text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight"
+              className="font-display text-2xl sm:text-3xl font-semibold text-neutral-950 tracking-tight"
               style={{ textWrap: 'balance' }}
             >
               How the n8n Resume Analyser Processes Candidate Packets
@@ -1185,16 +1184,16 @@ export default function App() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Marquee Capability (col-span-2) */}
-            <div className="lg:col-span-2 border border-slate-200 rounded-xl bg-white p-6 sm:p-8 flex flex-col justify-between gap-8">
+            <div className="lg:col-span-2 border border-neutral-300 rounded-xl bg-white p-6 sm:p-8 flex flex-col justify-between gap-8">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
                 <div className="md:col-span-7 space-y-3">
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-neutral-500">
                     Stage 1 · Form Trigger &amp; Binary Extraction
                   </p>
-                  <h3 className="font-display text-xl font-semibold text-slate-900">
+                  <h3 className="font-display text-xl font-semibold text-neutral-950">
                     01. Structured Multipart Document Ingestion
                   </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
+                  <p className="text-sm text-neutral-700 leading-relaxed">
                     When a candidate submits their profile through this portal, the webhook payload
                     transmits candidate identity (`field-0`), contact address (`field-1`), and binary
                     resume attachments (`field-2`) directly into the n8n execution graph for text
@@ -1202,7 +1201,7 @@ export default function App() {
                   </p>
                 </div>
                 <div className="md:col-span-5">
-                  <div className="rounded-lg overflow-hidden border border-slate-200 aspect-4/3 bg-slate-100">
+                  <div className="rounded-lg overflow-hidden border border-neutral-300 aspect-4/3 bg-neutral-100">
                     <ResilientImage
                       src={featureParsingImg}
                       alt="Structured curriculum vitae documents under review"
@@ -1213,64 +1212,64 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500">
+              <div className="pt-4 border-t border-neutral-200 flex flex-wrap items-center justify-between gap-4 text-xs text-neutral-600">
                 <span>Supports multi-file attachments per candidate</span>
-                <span className="font-mono-tabular text-slate-700">
+                <span className="font-mono-tabular text-neutral-900">
                   POST https://hasinisaranya07.app.n8n.cloud/form/808f0b35...
                 </span>
               </div>
             </div>
 
             {/* Capability 2 (col-span-1) */}
-            <div className="border border-slate-200 rounded-xl bg-white p-6 sm:p-8 flex flex-col justify-between">
+            <div className="border border-neutral-300 rounded-xl bg-white p-6 sm:p-8 flex flex-col justify-between">
               <div className="space-y-3">
-                <p className="text-xs text-slate-500">Stage 2 · Competency Mapping</p>
-                <h3 className="font-display text-xl font-semibold text-slate-900">
+                <p className="text-xs text-neutral-500">Stage 2 · Competency Mapping</p>
+                <h3 className="font-display text-xl font-semibold text-neutral-950">
                   02. Automated Role &amp; Skill Alignment
                 </h3>
-                <p className="text-sm text-slate-600 leading-relaxed">
+                <p className="text-sm text-neutral-700 leading-relaxed">
                   Extracted work history, technical stack keywords, and tenure durations are
                   normalized against target role requirements to surface concrete engineering and
                   domain qualifications without manual spreadsheet entry.
                 </p>
               </div>
-              <div className="pt-6 mt-6 border-t border-slate-200 text-xs text-slate-500">
+              <div className="pt-6 mt-6 border-t border-neutral-200 text-xs text-neutral-600">
                 <span>Consistent evaluation criteria across every applicant</span>
               </div>
             </div>
 
             {/* Capability 3 (col-span-1) */}
-            <div className="border border-slate-200 rounded-xl bg-white p-6 sm:p-8 flex flex-col justify-between">
+            <div className="border border-neutral-300 rounded-xl bg-white p-6 sm:p-8 flex flex-col justify-between">
               <div className="space-y-3">
-                <p className="text-xs text-slate-500">Stage 3 · Recruiter Routing</p>
-                <h3 className="font-display text-xl font-semibold text-slate-900">
+                <p className="text-xs text-neutral-500">Stage 3 · Recruiter Routing</p>
+                <h3 className="font-display text-xl font-semibold text-neutral-950">
                   03. Instant Shortlist Notification
                 </h3>
-                <p className="text-sm text-slate-600 leading-relaxed">
+                <p className="text-sm text-neutral-700 leading-relaxed">
                   Upon completion of the n8n workflow execution, structured candidate summaries and
                   parsed resume highlights are routed directly to hiring managers via email or
                   connected workspace channels.
                 </p>
               </div>
-              <div className="pt-6 mt-6 border-t border-slate-200 text-xs text-slate-500">
+              <div className="pt-6 mt-6 border-t border-neutral-200 text-xs text-neutral-600">
                 <span>Zero manual copy-pasting between inbox and tracker</span>
               </div>
             </div>
 
             {/* Capability 4 (col-span-2) */}
-            <div className="lg:col-span-2 border border-slate-200 rounded-xl bg-white p-6 sm:p-8 flex flex-col justify-between">
+            <div className="lg:col-span-2 border border-neutral-300 rounded-xl bg-white p-6 sm:p-8 flex flex-col justify-between">
               <div className="space-y-3">
-                <p className="text-xs text-slate-500">Stage 4 · Auditability &amp; Resilience</p>
-                <h3 className="font-display text-xl font-semibold text-slate-900">
+                <p className="text-xs text-neutral-500">Stage 4 · Auditability &amp; Resilience</p>
+                <h3 className="font-display text-xl font-semibold text-neutral-950">
                   04. Dual-Path Submission Reliability
                 </h3>
-                <p className="text-sm text-slate-600 leading-relaxed max-w-[68ch]">
+                <p className="text-sm text-neutral-700 leading-relaxed max-w-[68ch]">
                   Whether candidates submit through the native validated interface or the embedded
                   n8n Cloud container, every packet is verified for required fields and logged in
                   the session ledger with CSV export support for talent operations teams.
                 </p>
               </div>
-              <div className="pt-6 mt-6 border-t border-slate-200 flex flex-wrap items-center gap-6 text-xs text-slate-600">
+              <div className="pt-6 mt-6 border-t border-neutral-200 flex flex-wrap items-center gap-6 text-xs text-neutral-700">
                 <span>Field-0: Candidate Full Name</span>
                 <span aria-hidden="true">·</span>
                 <span>Field-1: Verified Email Address</span>
@@ -1282,42 +1281,42 @@ export default function App() {
         </section>
 
         {/* 4. Proof of Impact & Case Evidence (Adjacent to Capabilities) */}
-        <section id="evidence" className="border-t border-slate-200 bg-white py-16 lg:py-20">
+        <section id="evidence" className="border-t border-neutral-300 bg-white py-16 lg:py-20">
           <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
               {/* Quantified Case Studies */}
               <div className="lg:col-span-7 space-y-6">
-                <div className="flex items-center gap-2 text-xs text-slate-500">
+                <div className="flex items-center gap-2 text-xs text-neutral-600">
                   <span>Measured Operational Outcomes</span>
                   <span aria-hidden="true">·</span>
                   <span>Recruitment Automation Benchmarks</span>
                 </div>
-                <h2 className="font-display text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight">
+                <h2 className="font-display text-2xl sm:text-3xl font-semibold text-neutral-950 tracking-tight">
                   Verified Impact Across Technical Hiring Funnels
                 </h2>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
-                  <div className="border border-slate-200 rounded-xl p-6 bg-[#F8FAFC]">
-                    <p className="font-mono-tabular text-2xl font-semibold text-slate-900">
+                  <div className="border border-neutral-300 rounded-xl p-6 bg-[#F5F5F5]">
+                    <p className="font-mono-tabular text-2xl font-semibold text-neutral-950">
                       +68% Faster Screening
                     </p>
-                    <p className="text-xs text-slate-500 mt-1">
+                    <p className="text-xs text-neutral-600 mt-1">
                       Across 420 Technical Roles in 6 Months
                     </p>
-                    <p className="text-sm text-slate-600 mt-3 leading-relaxed">
+                    <p className="text-sm text-neutral-700 mt-3 leading-relaxed">
                       Replacing manual email attachments with structured n8n form triggers reduced
                       initial resume triage from 14 minutes to 4.5 minutes per applicant.
                     </p>
                   </div>
 
-                  <div className="border border-slate-200 rounded-xl p-6 bg-[#F8FAFC]">
-                    <p className="font-mono-tabular text-2xl font-semibold text-slate-900">
+                  <div className="border border-neutral-300 rounded-xl p-6 bg-[#F5F5F5]">
+                    <p className="font-mono-tabular text-2xl font-semibold text-neutral-950">
                       100% Schema Completeness
                     </p>
-                    <p className="text-xs text-slate-500 mt-1">
+                    <p className="text-xs text-neutral-600 mt-1">
                       Over 1,850 Candidate Submissions in Q1–Q3
                     </p>
-                    <p className="text-sm text-slate-600 mt-3 leading-relaxed">
+                    <p className="text-sm text-neutral-700 mt-3 leading-relaxed">
                       Enforcing strict validation on `field-0`, `field-1`, and `field-2` eliminated
                       missing contact emails and unreadable attachment formats.
                     </p>
@@ -1326,23 +1325,23 @@ export default function App() {
               </div>
 
               {/* Attributable Testimonial */}
-              <div className="lg:col-span-5 border border-slate-200 rounded-xl p-6 sm:p-8 bg-[#F8FAFC] space-y-6">
-                <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
+              <div className="lg:col-span-5 border border-neutral-950 rounded-xl p-6 sm:p-8 bg-neutral-950 text-white space-y-6">
+                <p className="text-sm sm:text-base text-neutral-200 leading-relaxed tracking-[0.01em]">
                   &ldquo;Before connecting our candidate portal to the n8n Resume Analyser form,
                   our recruiting coordinators spent 12 hours a week downloading PDFs from shared
                   inboxes. Standardizing intake on a single automated workflow cut our time-to-first-interview
                   from 5 days to under 24 hours.&rdquo;
                 </p>
-                <div className="flex items-center gap-4 pt-2 border-t border-slate-200">
+                <div className="flex items-center gap-4 pt-4 border-t border-neutral-800">
                   <ResilientImage
                     src={avatarRecruiterImg}
                     alt="Elena Rostova, Director of Technical Recruiting"
                     fallbackLabel="ER"
-                    className="w-12 h-12 rounded-full object-cover border border-slate-300 shrink-0"
+                    className="w-12 h-12 rounded-full object-cover border border-neutral-700 shrink-0"
                   />
                   <div>
-                    <p className="text-sm font-semibold text-slate-900">Elena Rostova</p>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-sm font-semibold text-white">Elena Rostova</p>
+                    <p className="text-xs text-neutral-400">
                       Director of Technical Recruiting · Vantage Systems
                     </p>
                   </div>
@@ -1353,16 +1352,16 @@ export default function App() {
         </section>
 
         {/* 5. Submission Ledger & Session Activity Table */}
-        <section id="ledger" className="border-t border-slate-200 py-16 lg:py-20">
+        <section id="ledger" className="border-t border-neutral-300 py-16 lg:py-20">
           <div className="max-w-[1200px] mx-auto px-6 lg:px-8 space-y-6">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
               <div>
-                <div className="flex items-center gap-2 text-xs text-slate-500 mb-1.5">
+                <div className="flex items-center gap-2 text-xs text-neutral-600 mb-1.5">
                   <span>Session Audit Trail</span>
                   <span aria-hidden="true">·</span>
                   <span>Tabular Submission Log</span>
                 </div>
-                <h2 className="font-display text-2xl font-semibold text-slate-900 tracking-tight">
+                <h2 className="font-display text-2xl font-semibold text-neutral-950 tracking-tight">
                   Recent Candidate Submissions
                 </h2>
               </div>
@@ -1370,18 +1369,18 @@ export default function App() {
               <div className="flex flex-wrap items-center gap-3">
                 {/* Search input */}
                 <div className="relative">
-                  <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <Search className="w-4 h-4 text-neutral-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                   <input
                     type="search"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Filter by candidate or file..."
-                    className="pl-9 pr-3.5 py-1.5 text-xs bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:border-[#1E40AF]"
+                    className="pl-9 pr-3.5 py-1.5 text-xs bg-white border border-neutral-300 rounded-lg text-neutral-950 focus:outline-none focus:border-neutral-950"
                   />
                 </div>
 
                 {/* Segmented Filter Control */}
-                <div className="inline-flex items-center gap-1 p-1 bg-slate-200/70 rounded-lg">
+                <div className="inline-flex items-center gap-1 p-1 bg-neutral-200 rounded-lg">
                   {(['all', 'Delivered to n8n', 'Pre-Check Saved'] as const).map((mode) => (
                     <button
                       key={mode}
@@ -1389,8 +1388,8 @@ export default function App() {
                       onClick={() => setDeliveryFilter(mode)}
                       className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
                         deliveryFilter === mode
-                          ? 'bg-white text-slate-900 shadow-xs'
-                          : 'text-slate-600 hover:text-slate-900'
+                          ? 'bg-neutral-950 text-white'
+                          : 'text-neutral-700 hover:text-neutral-950'
                       }`}
                     >
                       {mode === 'all' ? 'All Records' : mode}
@@ -1401,7 +1400,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={handleExportLedgerCsv}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg transition-colors whitespace-nowrap cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-neutral-900 bg-white hover:bg-neutral-100 border border-neutral-300 rounded-lg transition-colors whitespace-nowrap cursor-pointer"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>Export CSV</span>
@@ -1409,12 +1408,12 @@ export default function App() {
               </div>
             </div>
 
-            <div className="border border-slate-200 rounded-xl bg-white overflow-hidden">
+            <div className="border border-neutral-300 rounded-xl bg-white overflow-hidden">
               {filteredSubmissions.length > 0 ? (
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-slate-200 bg-slate-50/80 text-xs font-semibold text-slate-600">
+                      <tr className="border-b border-neutral-300 bg-neutral-100 text-xs font-semibold text-neutral-700">
                         <th className="py-3 px-4">ID</th>
                         <th className="py-3 px-4">Candidate</th>
                         <th className="py-3 px-4">Resume Attachment (`field-2`)</th>
@@ -1424,32 +1423,32 @@ export default function App() {
                         <th className="py-3 px-4 text-right">Status</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-200 text-xs">
+                    <tbody className="divide-y divide-neutral-200 text-xs">
                       {filteredSubmissions.map((item) => (
-                        <tr key={item.id} className="hover:bg-slate-50/80 transition-colors">
-                          <td className="py-3 px-4 font-mono-tabular font-semibold text-slate-900 whitespace-nowrap">
+                        <tr key={item.id} className="hover:bg-neutral-50 transition-colors">
+                          <td className="py-3 px-4 font-mono-tabular font-semibold text-neutral-950 whitespace-nowrap">
                             {item.id}
                           </td>
                           <td className="py-3 px-4">
-                            <p className="font-semibold text-slate-900">{item.candidateName}</p>
-                            <p className="text-slate-500">{item.candidateEmail}</p>
+                            <p className="font-semibold text-neutral-950">{item.candidateName}</p>
+                            <p className="text-neutral-600">{item.candidateEmail}</p>
                           </td>
-                          <td className="py-3 px-4 text-slate-700">
+                          <td className="py-3 px-4 text-neutral-800">
                             <p className="font-medium truncate max-w-[240px]">
                               {item.fileNames.join(', ')}
                             </p>
-                            <p className="text-slate-500">{item.targetRole}</p>
+                            <p className="text-neutral-500">{item.targetRole}</p>
                           </td>
-                          <td className="py-3 px-4 text-slate-600 whitespace-nowrap">
+                          <td className="py-3 px-4 text-neutral-700 whitespace-nowrap">
                             {item.readinessSummary}
                           </td>
-                          <td className="py-3 px-4 text-right font-mono-tabular text-slate-700 whitespace-nowrap">
+                          <td className="py-3 px-4 text-right font-mono-tabular text-neutral-800 whitespace-nowrap">
                             {formatBytes(item.totalSizeBytes)}
                           </td>
-                          <td className="py-3 px-4 text-right font-mono-tabular text-slate-500 whitespace-nowrap">
+                          <td className="py-3 px-4 text-right font-mono-tabular text-neutral-600 whitespace-nowrap">
                             {item.submittedAt}
                           </td>
-                          <td className="py-3 px-4 text-right whitespace-nowrap font-medium text-slate-800">
+                          <td className="py-3 px-4 text-right whitespace-nowrap font-semibold text-neutral-950">
                             {item.deliveryMode}
                           </td>
                         </tr>
@@ -1459,10 +1458,10 @@ export default function App() {
                 </div>
               ) : (
                 <div className="p-12 text-center space-y-3">
-                  <p className="text-sm font-semibold text-slate-900">
+                  <p className="text-sm font-semibold text-neutral-950">
                     No matching submission records found
                   </p>
-                  <p className="text-xs text-slate-500 max-w-md mx-auto">
+                  <p className="text-xs text-neutral-600 max-w-md mx-auto">
                     Clear your search filter or submit a new candidate packet above to populate the
                     session ledger.
                   </p>
@@ -1472,7 +1471,7 @@ export default function App() {
                       setSearchQuery('');
                       setDeliveryFilter('all');
                     }}
-                    className="px-3.5 py-1.5 text-xs font-semibold text-[#1E40AF] hover:underline cursor-pointer"
+                    className="px-3.5 py-1.5 text-xs font-semibold text-neutral-950 underline underline-offset-4 hover:text-neutral-600 cursor-pointer"
                   >
                     Reset Table Filters
                   </button>
@@ -1483,11 +1482,11 @@ export default function App() {
         </section>
       </main>
 
-      {/* Quiet Footer */}
-      <footer className="border-t border-slate-200 bg-white py-10 px-6 lg:px-12">
-        <div className="max-w-[1200px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 text-xs text-slate-500">
+      {/* Quiet Footer — Monochromatic */}
+      <footer className="border-t border-neutral-300 bg-white py-10 px-6 lg:px-12">
+        <div className="max-w-[1200px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 text-xs text-neutral-600">
           <div className="space-y-1">
-            <p className="font-display text-sm font-semibold text-slate-900">Resume Analyser</p>
+            <p className="font-display text-sm font-semibold text-neutral-950">Resume Analyser</p>
             <p>
               Connected to n8n Cloud Workflow ·{' '}
               <span className="font-mono-tabular">
@@ -1497,20 +1496,20 @@ export default function App() {
           </div>
 
           <div className="flex flex-wrap items-center gap-6">
-            <a href="#submission" className="hover:text-slate-900 transition-colors">
+            <a href="#submission" className="hover:text-neutral-950 transition-colors">
               Intake Form
             </a>
-            <a href="#capabilities" className="hover:text-slate-900 transition-colors">
+            <a href="#capabilities" className="hover:text-neutral-950 transition-colors">
               Architecture
             </a>
-            <a href="#ledger" className="hover:text-slate-900 transition-colors">
+            <a href="#ledger" className="hover:text-neutral-950 transition-colors">
               Submission Ledger
             </a>
             <a
               href={N8N_FORM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-slate-900 transition-colors inline-flex items-center gap-1"
+              className="hover:text-neutral-950 transition-colors inline-flex items-center gap-1"
             >
               <span>Direct n8n Form</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
