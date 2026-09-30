@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/n8n-direct",
+      "destination": "https://hasinisaranya07.app.n8n.cloud/form/808f0b35-1062-4dbc-85be-fe25e8f99e15"
+    }
+  ]
+}

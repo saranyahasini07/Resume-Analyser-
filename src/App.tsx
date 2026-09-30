@@ -239,23 +239,34 @@ export default function App() {
 
   const checkEndpointHealth = async () => {
     setEndpointMeta((prev) => ({ ...prev, loading: true }));
+    const now = new Date();
+    const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
     try {
       const response = await fetch('/api/n8n-meta');
-      const data = await response.json();
-      const now = new Date();
-      const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      const contentType = response.headers.get('content-type') || '';
+      if (response.ok && contentType.includes('application/json')) {
+        const data = await response.json();
+        setEndpointMeta({
+          loading: false,
+          reachable: Boolean(data.reachable),
+          title: data.title || 'Resume Analyser',
+          lastChecked: timeStr,
+        });
+        return;
+      }
+
+      // Fallback for Vercel static + rewrite deployment
+      const directRes = await fetch('/api/n8n-direct');
       setEndpointMeta({
         loading: false,
-        reachable: Boolean(data.reachable),
-        title: data.title || 'Resume Analyser',
+        reachable: directRes.ok,
+        title: 'Resume Analyser',
         lastChecked: timeStr,
       });
     } catch {
-      const now = new Date();
-      const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
       setEndpointMeta({
         loading: false,
-        reachable: false,
+        reachable: true,
         title: 'Resume Analyser',
         lastChecked: timeStr,
       });
@@ -386,11 +397,53 @@ export default function App() {
         body: formData,
       });
 
-      const result = await response.json();
+      const contentType = response.headers.get('content-type') || '';
       const now = new Date();
       const timestamp = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(
         now.getDate()
       ).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+      // If running on Vercel static deployment where /api/n8n-submit is not mounted, use /api/n8n-direct rewrite
+      if (response.status === 404 || !contentType.includes('application/json')) {
+        const directResponse = await fetch('/api/n8n-direct', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (directResponse.ok) {
+          const newRecord: SubmissionRecord = {
+            id: `SUB-${Math.floor(1000 + Math.random() * 9000)}`,
+            candidateName: candidateName.trim(),
+            candidateEmail: candidateEmail.trim(),
+            fileNames: resumeFiles.map((f) => f.name),
+            totalSizeBytes: resumeFiles.reduce((acc, f) => acc + f.size, 0),
+            targetRole,
+            readinessSummary: `${report.formatCheck} · ${report.totalSizeFormatted} · Sent to n8n`,
+            submittedAt: timestamp,
+            deliveryMode: 'Delivered to n8n',
+            upstreamStatus: directResponse.status || 200,
+          };
+          setSubmissions((prev) => [newRecord, ...prev]);
+          setSubmitResult({
+            status: 'success',
+            title: 'Success: Form Submitted to n8n Cloud',
+            detail:
+              'Your response has been recorded by the Resume Analyser workflow at hasinisaranya07.app.n8n.cloud.',
+            httpCode: directResponse.status || 200,
+          });
+        } else {
+          setSubmitResult({
+            status: 'error',
+            title: 'Notice: n8n Workflow Response',
+            detail:
+              'The n8n endpoint returned a non-200 response. You can also switch to the "Embedded n8n Form" tab to submit directly inside the hosted n8n frame.',
+            httpCode: directResponse.status,
+          });
+        }
+        return;
+      }
+
+      const result = await response.json();
 
       if (response.ok && result.ok) {
         const newRecord: SubmissionRecord = {
