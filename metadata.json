@@ -1,0 +1,6 @@
+{
+  "name": "Resume Analyser — Automated Candidate Evaluation Portal",
+  "description": "Automated resume intake, candidate qualification, and document analysis portal powered by n8n workflow automation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
